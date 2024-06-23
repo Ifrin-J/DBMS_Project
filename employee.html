@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Information</title>
+    <style>
+        html{
+            background-color: black;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            color: white;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: black;
+        }
+        .container{
+            display: flex;
+            height: 100px;
+            
+            bottom: 0;
+            justify-content: center;
+            
+            align-items: center;
+        }
+        .buttons{
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+           gap: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Employee Information</h2>
+
+    <table id="employeeTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Salary</th>
+                <th>Department</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- Data will be inserted here dynamically -->
+        </tbody>
+    </table>
+    <div class="container">
+
+        <div class="buttons">
+            <button onclick=enterTheDetails()>Add employee</button>
+            <button onclick=updateEmp()>Update employee</button>
+        </div>
+        <button onclick=deleteEmp()>Delete employee</button>
+    </div>
+</body>
+
+</html>
+<script>
+    let data;
+    async function fetchEmployees() {
+            try {
+                const response = await fetch('http://localhost:3000/employees'); // Fetch data from /employees endpoint
+                const employees = await response.json(); // Parse JSON response
+
+                // Get table body element
+                const tableBody = document.getElementById('tableBody');
+
+                // Iterate over employees array and create table rows
+                employees.forEach(employee => {
+                    const row = document.createElement('tr'); // Create table row
+                    row.innerHTML = `
+                        <td>${employee.id}</td>
+                        <td>${employee.name}</td>
+                        <td>${employee.salary}</td>
+                        <td>${employee.department}</td>
+                    `;
+                    tableBody.appendChild(row); // Append row to table body
+                });
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        fetchEmployees()
+
+        async function enterTheDetails(){
+            let name = prompt("Enter the name");
+            let salary = prompt("Enter the sal")
+            let department = prompt("Enter the dep")
+            const resp = await fetch("http://localhost:3000/createEmp" , {
+                method : "POST",
+                headers : { 
+                    "Content-Type":"application/json",
+            },
+                body:JSON.stringify({
+                    name,
+                    salary,
+                    department
+        })
+
+
+
+    })
+    if(resp.status == 200){
+        alert("Employee added succ")
+    }
+    if(resp.status == 500){
+        alert(resp.json().error)
+    }
+        }
+
+        async function updateEmp (){
+            let id = prompt("Enter the id");
+            let name = prompt("Enter the name");
+            let salary = prompt("Enter the sal")
+            let department = prompt("Enter the dep")
+            const resp = await fetch("http://localhost:3000/updateEmp" , {
+                method : "POST",
+                headers : { 
+                    "Content-Type":"application/json",
+            },
+                body:JSON.stringify({
+                    id,
+                    name,
+                    salary,
+                    department
+        })
+
+
+
+    })
+    if(resp.status == 200){
+        alert("Employee updated succ")
+    }
+    if (resp.status != 200) {
+    resp.json().then(data => {
+        alert(data.error);
+    }).catch(error => {
+        console.error('Error parsing JSON:', error);
+    });
+}
+    }
+
+
+    async function deleteEmp(){
+        let id = prompt("Enter the empl id")
+        const resp = await fetch("http://localhost:3000/deleteEmp" , {
+                method : "POST",
+                headers : { 
+                    "Content-Type":"application/json",
+            },
+                body:JSON.stringify({
+                    id,
+                    
+        })
+
+
+
+
+    })
+    if(resp.status == 200){
+        alert("Deleted succ")
+    }
+    if (resp.status != 200) {
+    resp.json().then(data => {
+        alert(data.error);
+    }).catch(error => {
+        console.error('Error parsing JSON:', error);
+    });
+}
+
+    }
+
+        
+</script>

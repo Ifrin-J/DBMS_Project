@@ -1,0 +1,106 @@
+<!-- HTML -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        /* CSS */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        #signInForm {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #signInForm label {
+            margin-bottom: 10px;
+        }
+        #signInForm input[type="text"], #signInForm input[type="password"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #signInForm button[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #signInForm button[type="submit"]:hover {
+            background-color: #3e8e41;
+        }
+        .error-message {
+            color: red;
+            margin-bottom: 20px;
+        }
+        #employeeDetails {
+            display: none;
+        }
+        #signOutButton {
+            background-color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 10px 20px;
+        }
+        #signOutButton:hover {
+            background-color: #2f6fab;
+        }
+        #message{
+            text-align: center;
+            font-size: large;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="signInPage" class="fade-in">
+            <h2>Sign In</h2>
+            <form id="signInForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit" >Sign In</button>
+                <p id="errorMessage" class="error-message"></p>
+            </form>
+            
+        </div>
+        <div id="employeeDetails" class="fade-in" style="display: none;">
+            <h2>Employee Details</h2>
+            <p id="employeeName"></p>
+            <p id="employeeRole"></p>
+            <button id="signOutButton" >Sign Out</button>
+        </div>
+        <p id="message"></p>
+    </div>
+    <script src="./script.js"></script>
+</body>
+</html>
